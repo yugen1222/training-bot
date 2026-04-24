@@ -2,7 +2,7 @@ import os
 import json
 import gspread
 from google.oauth2.service_account import Credentials
-from config import GOOGLE_SHEET_NAME, SERVICE_ACCOUNT_FILE
+from config import GOOGLE_SHEET_NAME
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -13,15 +13,13 @@ SCOPES = [
 def get_credentials():
     google_credentials = os.getenv("GOOGLE_CREDENTIALS")
 
-    if google_credentials:
-        creds_dict = json.loads(google_credentials)
-        return Credentials.from_service_account_info(
-            creds_dict,
-            scopes=SCOPES
-        )
+    if not google_credentials:
+        raise ValueError("GOOGLE_CREDENTIALS не найден в Render Environment")
 
-    return Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE,
+    creds_dict = json.loads(google_credentials)
+
+    return Credentials.from_service_account_info(
+        creds_dict,
         scopes=SCOPES
     )
 
