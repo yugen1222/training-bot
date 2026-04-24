@@ -4,6 +4,9 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 from config import BOT_TOKEN
 from sheets import get_branches, get_employees_by_branch, find_employee, get_tm_chat_ids, get_ready_for_tm
 
+import asyncio
+
+asyncio.set_event_loop(asyncio.new_event_loop())
 
 MAIN_MENU = ReplyKeyboardMarkup(
     [
